@@ -17,12 +17,14 @@
           v-model="user.username"
           placeholder="请输入用户名/手机号码"
           :rules="/^1[35789]\d{9}$|^[A-Za-z]{3,20}$/"
+          message="请输入合法用户名或者11位手机号"
         ></hminput>
         <hminput
           type="password "
           v-model="user.password"
           placeholder="请输入手机密码"
           :rules="/^.{3,16}$/"
+          message="请输入合法3到16位密码"
         ></hminput>
       </div>
       <p class="tips">
@@ -65,11 +67,18 @@ export default {
         userLogin(this.user)
           .then((res) => {
             console.log(res);
+            // console.log(res.data.message === "登录成功");
+            if (res.data.message === "登录成功") {
+              this.$toast.success("登录成功");
+            } else {
+              this.$toast.fail("登录失败");
+            }
           })
           .catch((err) => {
             console.log(err);
           });
       } else {
+        this.$toast.fail("请输入合法格式");
       }
     },
     // getvalue(data) {

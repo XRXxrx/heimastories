@@ -4,6 +4,7 @@
     class="hminput"
     @input="sendvalue"
     :[key]="{ success: flag, error: !flag }"
+    @blur="inptbulr"
   />
 </template>
 
@@ -13,6 +14,9 @@ export default {
   props: {
     rules: {
       type: [RegExp],
+    },
+    message: {
+      type: [String],
     },
   },
   data() {
@@ -38,6 +42,14 @@ export default {
       }
       //   this.$emit("getvalue", e.target.value);
       this.$emit("input", value);
+    },
+    inptbulr(e) {
+      let value = e.target.value;
+      if (this.rules) {
+        if (!this.rules.test(value)) {
+          this.$toast.fail(this.message);
+        }
+      }
     },
   },
 };
