@@ -14,13 +14,26 @@
         没有账号？
         <a href="#/register" class="">去注册</a>
       </p>
-      <div class="button">登录按钮</div>
+      <!-- <div class="button">登录按钮</div> -->
     </div>
+    <hmbutton @getlogin="getlogin" type="success">
+      <span>登录</span>
+    </hmbutton>
   </div>
 </template>
 
 <script>
-export default {};
+import hmbutton from "@/components/hm_button";
+export default {
+  components: {
+    hmbutton,
+  },
+  methods: {
+    getlogin(e) {
+      console.log("324");
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
