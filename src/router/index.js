@@ -8,11 +8,18 @@ Vue.use(VueRouter)
 const router = new VueRouter({
     //使用toutes进行路由配置
     routes: [{
-        name: 'login',
-        path: '/login',
-        component: () =>
-            import ('@/views/user/login.vue')
-    }]
+            name: 'login',
+            path: '/login',
+            component: () =>
+                import ('@/views/user/login.vue')
+        },
+        {
+            name: 'register',
+            path: '/register',
+            component: () =>
+                import ('@/views/user/register.vue')
+        }
+    ]
 })
 
 //暴露

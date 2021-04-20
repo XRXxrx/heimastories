@@ -4,43 +4,38 @@
       <div class="close"><span class="iconfont iconicon-test"></span></div>
       <div class="logo"><span class="iconfont iconnew"></span></div>
       <div class="inputs">
-        <!-- :value='user.username'：父传子：数据影响元素 -->
-        <!-- @getvalue='getvalue'：子传父：元素影响数据 -->
-        <!-- <hminput :value="user.username" @getvalue="getvalue"></hminput> -->
-        <!-- <hminput @getvalue="getvalue"></hminput>
-        <hminput @getvalue="getpwd"></hminput> -->
-        <!-- v-model:双向数据绑定：数据影响元素 + 元素影响数据
-        1.为子组件的value属性赋值
-        2.监听子组件所发出的input事件 -->
-        <!-- 为子组件赋值优先赋值给子组件的props属性，如果没有props属性，那么就会添加到组件的根元素 -->
         <hminput
+          placeholder="请输入手机号"
           v-model="user.username"
-          placeholder="请输入手机号码"
           :rules="/^1[35789]\d{9}$/"
           message="请输入11位手机号"
         ></hminput>
         <hminput
-          type="password "
+          placeholder="请输入昵称"
+          v-model="user.nickname"
+          :rules="/^[A-Za-z]{3,20}$/"
+          message="请输入3到20位英文字母昵称"
+        ></hminput>
+        <hminput
+          placeholder="请输入密码"
           v-model="user.password"
-          placeholder="请输入手机密码"
           :rules="/^.{3,16}$/"
           message="请输入合法3到16位密码"
         ></hminput>
       </div>
       <p class="tips">
-        没有账号？
-        <a href="#/register" class="">去注册</a>
+        有账号？
+        <a href="#/login" class="">去登录</a>
       </p>
-      <!-- <div class="button">登录按钮</div> -->
+      <hmbutton type="primary" @click="getregister">
+        <span>注册</span>
+      </hmbutton>
     </div>
-    <hmbutton @click="getlogin" type="success">
-      <span>登录</span>
-    </hmbutton>
   </div>
 </template>
 
 <script>
-import { userLogin } from "@/apis/user";
+import { userRegister } from "@/apis/user";
 import hmbutton from "@/components/hm_button";
 import hminput from "@/components/hm_input";
 export default {
@@ -48,6 +43,7 @@ export default {
     return {
       user: {
         username: "",
+        nickname: "",
         password: "",
       },
     };
@@ -57,24 +53,23 @@ export default {
     hminput,
   },
   methods: {
-    getlogin(e) {
-      //   console.log("324");
-      //   console.log(this.user);
+    getregister(e) {
       if (
         /^1[35789]\d{9}$/.test(this.user.username) &&
+        /^[A-Za-z]{3,20}$/.test(this.user.nickname) &&
         /^.{3,16}$/.test(this.user.password)
       ) {
-        userLogin(this.user)
+        userRegister(this.user)
           .then((res) => {
             console.log(res);
-            // console.log(res.data.message === "登录成功");
-            if (res.data.message === "登录成功") {
+            if (res.data.message === "注册成功") {
               this.$toast.success({
                 message: res.data.message,
                 position: "bottom",
               });
+              this.$router.push({ name: "login" });
             } else {
-              this.$toast.fail({
+              this.$toast.success({
                 message: res.data.message,
                 position: "bottom",
               });
@@ -82,18 +77,13 @@ export default {
           })
           .catch((err) => {
             console.log(err);
+            this.$toast.success({
+              message: "请输入正确的格式",
+              position: "bottom",
+            });
           });
-      } else {
-        this.$toast.fail("请输入合法格式");
       }
     },
-    // getvalue(data) {
-    //   console.log(data);
-    //   this.user.username = data;
-    // },
-    // getpwd(data) {
-    //   this.user.password = data;
-    // },
   },
 };
 </script>
@@ -102,11 +92,13 @@ export default {
 .container {
   padding: 20px;
 }
+
 .close {
   span {
     font-size: 27 / 360 * 100vw;
   }
 }
+
 .logo {
   display: flex;
   justify-content: center;
@@ -117,14 +109,17 @@ export default {
     color: #d81e06;
   }
 }
+
 .inputs {
   input {
     margin-bottom: 20px;
   }
 }
+
 .tips {
   text-align: right;
   margin-bottom: 20px;
+
   a {
     color: #3385ff;
   }

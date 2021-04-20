@@ -27,9 +27,9 @@ export default {
   },
   methods: {
     sendvalue(e) {
-      this.key = "class";
       let value = e.target.value;
       if (this.rules) {
+        this.key = "class";
         if (this.rules.test(value)) {
           this.flag = true;
         } else {
@@ -47,7 +47,10 @@ export default {
       let value = e.target.value;
       if (this.rules) {
         if (!this.rules.test(value)) {
-          this.$toast.fail(this.message);
+          this.$toast.fail({
+            message: this.message,
+            position: "bottom",
+          });
         }
       }
     },
