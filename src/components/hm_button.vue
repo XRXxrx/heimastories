@@ -22,6 +22,7 @@ export default {
   },
   methods: {
     userlogin(e) {
+      //告诉父组件你点击了此按钮
       this.$emit("getlogin", e);
     },
   },
