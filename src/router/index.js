@@ -24,6 +24,12 @@ const router = new VueRouter({
             path: '/personal/:id',
             component: () =>
                 import ('@/views/user/personal.vue')
+        },
+        {
+            name: 'edit_profile',
+            path: '/edit_profile/:id',
+            component: () =>
+                import ('@/views/user/edit_profile.vue')
         }
     ]
 })
@@ -31,7 +37,7 @@ const router = new VueRouter({
 //添加导航守卫
 import { Toast } from 'vant';
 router.beforeEach((to, from, next) => {
-    if (to.path.indexOf(/personal/) !== -1) {
+    if (to.path.indexOf('/personal/') !== -1) {
         let token = localStorage.getItem('heima_token')
         if (token) {
             next()

@@ -7,7 +7,7 @@
         <myipt
           placeholder="请输入手机号"
           v-model.trim="user.username"
-          :rules="/^1[35789]\d{9}$/"
+          :rules="/^1[35789]\d{9}$|^admin$/"
           message="请输入11位手机号"
         ></myipt>
         <myipt
@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { userLogin } from "@/apis/user";
+import { userLogin } from "@/apis/user2";
 import myipt from "@/components/hm_ipt";
 import mybtn from "@/components/hm_btn";
 export default {
@@ -50,7 +50,7 @@ export default {
     getbtn(e) {
       // console.log(this.user);
       if (
-        /^1[35789]\d{9}$/.test(this.user.username) &&
+        /^1[35789]\d{9}$|^admin$/.test(this.user.username) &&
         /^.{3,16}$/.test(this.user.passord)
       ) {
         userLogin(this.user)
@@ -60,6 +60,10 @@ export default {
               this.$toast.fail({
                 message: res.data.message,
                 position: "bottom",
+              });
+              localStorage.setItem("heima_token2", res.data.data.token);
+              this.$router.push({
+                path: `/personal2/${res.data.data.user.id}`,
               });
             } else {
               this.$toast.fail({

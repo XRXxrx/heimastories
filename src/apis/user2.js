@@ -1,8 +1,8 @@
-import myaxios from '@/utils/request'
+import meaxios from '@/utils/request2'
 
 //登录
 export const userLogin = (data) => {
-    return myaxios({
+    return meaxios({
         method: 'post',
         url: '/login',
         data
@@ -11,7 +11,7 @@ export const userLogin = (data) => {
 
 //注册
 export const userRegister = (data) => {
-    return myaxios({
+    return meaxios({
         method: 'post',
         url: '/register',
         data
@@ -20,18 +20,8 @@ export const userRegister = (data) => {
 
 //个人中心首页
 export const getUserInfo = (id) => {
-    return myaxios({
+    return meaxios({
         method: 'get',
         url: `/user/${id}`,
-        // headers: { Authorization: localStorage.getItem('heima_token') }
-    })
-}
-
-//编辑用户信息
-export const updateUserInfo = (id, data) => {
-    return myaxios({
-        method: 'post',
-        url: `/user_update/${id}`,
-        data
     })
 }

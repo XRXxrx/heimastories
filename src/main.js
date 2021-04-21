@@ -6,9 +6,9 @@ import router from '@/router/index'
 // import router from '@/router/index2'
 
 //引入vant配置文件
-import { Toast, Icon } from 'vant';
+import { Toast, Icon, Uploader, Dialog, Field } from 'vant';
 
-Vue.use(Toast).use(Icon);
+Vue.use(Toast).use(Icon).use(Uploader).use(Dialog).use(Field);
 
 //引入全局样式
 import '@/styles/reset.less'

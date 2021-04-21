@@ -1,6 +1,6 @@
 <template>
   <div class="personal">
-    <router-link :to="'/edit_profile/' + id">
+    <router-link to="/edit_profile">
       <div class="profile">
         <img :src="userinfo.head_img" alt />
         <div class="profile-center">
@@ -19,34 +19,32 @@
         <span class="iconfont iconjiantou1"></span>
       </div>
     </router-link>
-    <mycell title="我的关注" desc="关注的用户"></mycell>
-    <mycell title="我的跟帖" desc="跟帖/回复"></mycell>
-    <mycell title="我的收藏" desc="文章/视频"></mycell>
-    <mycell title="设置"></mycell>
-    <mybutton type="danger" class="but">退出</mybutton>
+    <mycell2 title="我的关注" desc="关注的用户"></mycell2>
+    <mycell2 title="我的跟帖" desc="跟帖/回复"></mycell2>
+    <mycell2 title="我的收藏" desc="文章/视频"></mycell2>
+    <mycell2 title="设置"></mycell2>
+    <mybutton type="danger" style="margin-top: 20px">退出</mybutton>
   </div>
 </template>
 
 <script>
-import axios from "@/utils/request";
-import { getUserInfo } from "@/apis/user";
-import mycell from "@/components/hm_cell";
+import axios from "../../utils/request2";
+import { getUserInfo } from "@/apis/user2";
+import mycell2 from "@/components/hm_cell2";
 import mybutton from "@/components/hm_button";
 export default {
   components: {
-    mycell,
+    mycell2,
     mybutton,
   },
   data() {
     return {
       userinfo: {},
-      id: "",
     };
   },
   mounted() {
-    // console.log(this.$route);
-    this.id = this.$route.params.id;
-    getUserInfo(this.id)
+    let id = this.$route.params.id;
+    getUserInfo(id)
       .then((res) => {
         console.log(res);
         this.userinfo = res.data.data;
@@ -65,9 +63,6 @@ export default {
   width: 100vw;
   height: 100vh;
   background-color: #eee;
-  .but {
-    margin-top: 20px;
-  }
 }
 a {
   color: #666;

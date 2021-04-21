@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { userRegister } from "@/apis/user";
+import { userRegister } from "@/apis/user2";
 import myipt from "@/components/hm_ipt";
 import mybtn from "@/components/hm_btn";
 export default {
