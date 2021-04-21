@@ -3,7 +3,6 @@ import App from './App.vue'
 
 //引用路由
 import router from '@/router/index'
-// import router from '@/router/index2'
 
 //引入vant配置文件
 import { Toast, Icon, Uploader, Dialog, Field } from 'vant';
