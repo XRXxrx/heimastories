@@ -2,13 +2,17 @@
   <div class="personal">
     <router-link to="/edit_profile">
       <div class="profile">
-        <img
-          src="http://img1.imgtn.bdimg.com/it/u=3757784226,1202878475&fm=26&gp=0.jpg"
-          alt
-        />
+        <img :src="userinfo.head_img" alt />
         <div class="profile-center">
           <div class="name">
-            <span class="iconfont iconxingbienan"></span>我就是我
+            <span
+              class="iconfont"
+              :class="{
+                iconxingbienan: userinfo.gender === 1,
+                iconxingbienv: userinfo.gender === 0,
+              }"
+            ></span
+            >{{ userinfo.nickname }}
           </div>
           <div class="time">2019-9-24</div>
         </div>
@@ -24,12 +28,33 @@
 </template>
 
 <script>
+import axios from "@/utils/request";
+import { getUserInfo } from "@/apis/user";
 import mycell from "@/components/hm_cell";
 import mybutton from "@/components/hm_button";
 export default {
   components: {
     mycell,
     mybutton,
+  },
+  data() {
+    return {
+      userinfo: {},
+    };
+  },
+  mounted() {
+    // console.log(this.$route);
+    let id = this.$route.params.id;
+    getUserInfo(id)
+      .then((res) => {
+        console.log(res);
+        this.userinfo = res.data.data;
+        this.userinfo.head_img =
+          axios.defaults.baseURL + this.userinfo.head_img;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   },
 };
 </script>

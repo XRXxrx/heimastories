@@ -16,7 +16,7 @@
         <hminput
           v-model.trim="user.username"
           placeholder="请输入手机号码"
-          :rules="/^1[35789]\d{9}$/"
+          :rules="/^1[35789]\d{9}$|^[A-Za-z]{3,20}$/"
           message="请输入11位手机号"
         ></hminput>
         <hminput
@@ -61,7 +61,7 @@ export default {
       //   console.log("324");
       //   console.log(this.user);
       if (
-        /^1[35789]\d{9}$/.test(this.user.username) &&
+        /^1[35789]\d{9}$|^[A-Za-z]{3,20}$/.test(this.user.username) &&
         /^.{3,16}$/.test(this.user.password)
       ) {
         userLogin(this.user)
