@@ -21,11 +21,27 @@ const router = new VueRouter({
         },
         {
             name: 'personal',
-            path: '/personal',
+            path: '/personal/:id',
             component: () =>
                 import ('@/views/user/personal.vue')
         }
     ]
+})
+
+//添加导航守卫
+import { Toast } from 'vant';
+router.beforeEach((to, from, next) => {
+    if (to.path.indexOf(/personal/) !== -1) {
+        let token = localStorage.getItem('heima_token')
+        if (token) {
+            next()
+        } else {
+            Toast('未登录，请先登录')
+            next({ name: 'login' })
+        }
+    } else {
+        next()
+    }
 })
 
 //暴露

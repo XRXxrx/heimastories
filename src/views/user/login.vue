@@ -73,7 +73,8 @@ export default {
                 message: res.data.message,
                 position: "bottom",
               });
-              this.$router.push({ name: "personal" });
+              localStorage.setItem("heima_token", res.data.data.token);
+              this.$router.push({ path: `/personal/${res.data.data.user.id}` });
             } else {
               this.$toast.fail({
                 message: res.data.message,
