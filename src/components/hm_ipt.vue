@@ -1,16 +1,15 @@
 <template>
   <input
     type="text"
-    class="hminput"
-    @input="sendvalue"
+    class="ipt"
+    @input="sendinfo"
+    @blur="getstates"
     :[key]="{ success: flag, error: !flag }"
-    @blur="inptbulr"
   />
 </template>
 
 <script>
 export default {
-  //   props: ["value"],
   props: {
     rules: {
       type: [RegExp],
@@ -21,13 +20,12 @@ export default {
   },
   data() {
     return {
-      //如果值为空表示的是false
       flag: "",
       key: "",
     };
   },
   methods: {
-    sendvalue(e) {
+    sendinfo(e) {
       let value = e.target.value;
       if (this.rules) {
         this.key = "class";
@@ -37,14 +35,12 @@ export default {
           this.flag = false;
         }
       }
-      //   console.log(value);
       if (value === "") {
         this.key = "";
       }
-      //   this.$emit("getvalue", e.target.value);
       this.$emit("input", value);
     },
-    inptbulr(e) {
+    getstates(e) {
       let value = e.target.value;
       if (this.rules) {
         if (!this.rules.test(value)) {
@@ -60,7 +56,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.hminput {
+.ipt {
   width: 314 * 100vw/360;
   height: 50px;
   outline: none;

@@ -3,11 +3,12 @@ import App from './App.vue'
 
 //引用路由
 import router from '@/router/index'
+// import router from '@/router/index2'
 
 //引入vant配置文件
-import { Toast } from 'vant';
+import { Toast, Icon } from 'vant';
 
-Vue.use(Toast);
+Vue.use(Toast).use(Icon);
 
 //引入全局样式
 import '@/styles/reset.less'

@@ -4,40 +4,34 @@
       <div class="close"><span class="iconfont iconicon-test"></span></div>
       <div class="logo"><span class="iconfont iconnew"></span></div>
       <div class="inputs">
-        <hminput
-          placeholder="请输入手机号"
+        <myipt
+          placeholder="手机号码"
           v-model.trim="user.username"
           :rules="/^1[35789]\d{9}$/"
-          message="请输入11位手机号"
-        ></hminput>
-        <hminput
-          placeholder="请输入昵称"
-          v-model.trim="user.nickname"
-          :rules="/^[A-Za-z]{3,20}$/"
-          message="请输入3到20位英文字母昵称"
-        ></hminput>
-        <hminput
-          placeholder="请输入密码"
+          message="请输入11位手机号码"
+        ></myipt>
+        <myipt placeholder="昵称" v-model.trim="user.nickname"></myipt>
+        <myipt
+          placeholder="密码"
+          type="password"
           v-model.trim="user.password"
           :rules="/^.{3,16}$/"
-          message="请输入合法3到16位密码"
-        ></hminput>
+          message="请输入3到16位密码"
+        ></myipt>
       </div>
       <p class="tips">
         有账号？
-        <a href="#/login" class="">去登录</a>
+        <a href="#/login2" class="">去登录</a>
       </p>
-      <hmbutton type="primary" @click="getregister">
-        <span>注册</span>
-      </hmbutton>
+      <mybtn type="primary" @click="getregister">注册</mybtn>
     </div>
   </div>
 </template>
 
 <script>
 import { userRegister } from "@/apis/user";
-import hmbutton from "@/components/hm_button";
-import hminput from "@/components/hm_input";
+import myipt from "@/components/hm_ipt";
+import mybtn from "@/components/hm_btn";
 export default {
   data() {
     return {
@@ -49,27 +43,28 @@ export default {
     };
   },
   components: {
-    hmbutton,
-    hminput,
+    mybtn,
+    myipt,
   },
   methods: {
     getregister(e) {
+      // console.log(this.user);
       if (
         /^1[35789]\d{9}$/.test(this.user.username) &&
-        /^[A-Za-z]{3,20}$/.test(this.user.nickname) &&
+        this.user.nickname.length > 0 &&
         /^.{3,16}$/.test(this.user.password)
       ) {
         userRegister(this.user)
           .then((res) => {
             console.log(res);
             if (res.data.message === "注册成功") {
-              this.$toast.success({
+              this.$toast.fail({
                 message: res.data.message,
                 position: "bottom",
               });
-              this.$router.push({ name: "login" });
+              this.$router.push({ name: "login2" });
             } else {
-              this.$toast.success({
+              this.$toast.fail({
                 message: res.data.message,
                 position: "bottom",
               });
@@ -77,11 +72,12 @@ export default {
           })
           .catch((err) => {
             console.log(err);
-            this.$toast.success({
-              message: "请输入正确的格式",
-              position: "bottom",
-            });
           });
+      } else {
+        this.$toast.fail({
+          message: "请输入合法格式",
+          position: "bottom",
+        });
       }
     },
   },
