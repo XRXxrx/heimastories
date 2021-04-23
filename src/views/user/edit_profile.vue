@@ -5,7 +5,7 @@
         <van-icon name="arrow-left" @click="$router.go(-1)" />
       </template>
       <template #right>
-        <van-icon name="wap-home-o" />
+        <van-icon name="wap-home-o" @click="$router.push({ name: 'index' })" />
       </template>
     </myheader>
     <div class="imgarea">
@@ -29,12 +29,50 @@
         label="昵称"
         placeholder="请输入昵称"
     /></van-dialog>
-    <mycell title="密码" desc="***********"></mycell>
-    <mycell title="性别" :desc="userinfos.gender === 1 ? '男' : '女'"></mycell>
+    <mycell
+      title="密码"
+      desc="***********"
+      @click.native="
+        passshow = !passshow;
+        oldpassword = newpassword = '';
+      "
+    ></mycell>
+    <van-dialog
+      v-model="passshow"
+      title="编辑密码"
+      show-cancel-button
+      @confirm="editPassword"
+      :beforeClose="beforeClose"
+    >
+      <van-field
+        v-model="oldpassword"
+        required
+        label="原密码"
+        placeholder="请输入原密码"
+      />
+      <van-field
+        v-model="newpassword"
+        required
+        label="新密码"
+        placeholder="请输入新密码"
+      />
+    </van-dialog>
+    <mycell
+      title="性别"
+      :desc="userinfos.gender === 1 ? '男' : '女'"
+      @click.native="gendershow = !gendershow"
+    ></mycell>
+    <van-action-sheet
+      v-model="gendershow"
+      :actions="actions"
+      @select="onSelect"
+      :close-on-click-action="true"
+    />
   </div>
 </template>
 
 <script>
+import { Toast } from "vant";
 import axios from "@/utils/request";
 import { getUserInfo, updateUserInfo } from "@/apis/user";
 import { userFile } from "@/apis/fileupload";
@@ -49,8 +87,13 @@ export default {
     return {
       userinfos: {},
       nickshow: false,
+      passshow: false,
+      gendershow: false,
       // 昵称所 对应的变量,不能与userinfos里的昵称名一样，否则会跟随变化，点击取消也会被修改
       nickname: "",
+      oldpassword: "",
+      newpassword: "",
+      actions: [{ name: "男" }, { name: "女" }],
     };
   },
   mounted() {
@@ -113,7 +156,7 @@ export default {
       this.nickshow = !this.nickshow;
       this.nickname = this.userinfos.nickname;
     },
-    //点击确定按钮,进行修改
+    //点击确定按钮,修改昵称
     editNickname() {
       updateUserInfo(this.$route.params.id, {
         nickname: this.nickname,
@@ -130,6 +173,63 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    //点击确定按钮,修改密码
+    async editPassword() {
+      //判断原密码是否输入正确
+      if (this.oldpassword === this.userinfos.password) {
+        //验证新密码是否符合校验规则
+        if (/^.{3,16}$/.test(this.newpassword)) {
+          //编辑密码
+          let res = await updateUserInfo(this.$route.params.id, {
+            password: this.newpassword,
+          });
+          console.log(res);
+          if (this.oldpassword === this.newpassword) {
+            this.$toast.success("新密码不能与原密码相同");
+          } else {
+            this.userinfos.password = this.newpassword;
+            this.$toast.success(res.data.message);
+          }
+        } else {
+          this.$toast.fail("请输入3到16位密码");
+        }
+      } else {
+        this.$toast.fail("原密码错误");
+      }
+    },
+    //如果错误，阻止拟态框的关闭
+    beforeClose(action, done) {
+      //只给确定按钮添加阻止方法x
+      // console.log(action);
+      if (action === "confirm") {
+        //如果原密码错误或者新密码格式错误，阻止弹出框的关闭
+        if (
+          this.oldpassword !== this.userinfos.password ||
+          !/^.{3,16}$/.test(this.newpassword) ||
+          this.oldpassword === this.newpassword
+        ) {
+          done(false);
+        } else {
+          done();
+        }
+      } else {
+        done();
+      }
+    },
+    //编辑性别
+    async onSelect(item) {
+      // 默认情况下点击选项时不会自动收起
+      // 可以通过 close-on-click-action 属性开启自动收起
+      // this.show = false;
+      // Toast(item.name);
+      let gender = item.name === "男" ? 1 : 0;
+      let res = await updateUserInfo(this.$route.params.id, {
+        gender,
+      });
+      console.log(res);
+      this.$toast.success(res.data.message);
+      this.userinfos.gender = gender;
     },
   },
 };

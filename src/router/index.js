@@ -30,6 +30,12 @@ const router = new VueRouter({
             path: '/edit_profile/:id',
             component: () =>
                 import ('@/views/user/edit_profile.vue')
+        },
+        {
+            name: 'index',
+            path: '/index',
+            component: () =>
+                import ('@/views/main/index.vue')
         }
     ]
 })
