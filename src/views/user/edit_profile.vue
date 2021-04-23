@@ -180,14 +180,14 @@ export default {
       if (this.oldpassword === this.userinfos.password) {
         //验证新密码是否符合校验规则
         if (/^.{3,16}$/.test(this.newpassword)) {
-          //编辑密码
-          let res = await updateUserInfo(this.$route.params.id, {
-            password: this.newpassword,
-          });
-          console.log(res);
           if (this.oldpassword === this.newpassword) {
             this.$toast.success("新密码不能与原密码相同");
           } else {
+            //编辑密码
+            let res = await updateUserInfo(this.$route.params.id, {
+              password: this.newpassword,
+            });
+            console.log(res);
             this.userinfos.password = this.newpassword;
             this.$toast.success(res.data.message);
           }
