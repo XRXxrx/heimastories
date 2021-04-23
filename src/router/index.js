@@ -8,6 +8,10 @@ Vue.use(VueRouter)
 const router = new VueRouter({
     //使用toutes进行路由配置
     routes: [{
+            path: '/',
+            redirect: { name: 'index' }
+        },
+        {
             name: 'login',
             path: '/login',
             component: () =>
@@ -35,7 +39,7 @@ const router = new VueRouter({
             name: 'index',
             path: '/index',
             component: () =>
-                import ('@/views/main/index.vue')
+                import ('@/views/index.vue')
         }
     ]
 })
