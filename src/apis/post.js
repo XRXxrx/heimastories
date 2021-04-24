@@ -14,3 +14,11 @@ export const postDetail = (id) => {
         url: `/post/${id}`
     })
 }
+
+//点赞文章
+export const likeCate = (id) => {
+    return myaxios({
+        method: 'get',
+        url: `/post_like/${id}`
+    })
+}
