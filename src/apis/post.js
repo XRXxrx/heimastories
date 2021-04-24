@@ -7,3 +7,10 @@ export const postList = (params) => {
         params
     })
 }
+
+export const postDetail = (id) => {
+    return myaxios({
+        method: 'get',
+        url: `/post/${id}`
+    })
+}

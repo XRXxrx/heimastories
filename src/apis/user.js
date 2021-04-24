@@ -35,3 +35,18 @@ export const updateUserInfo = (id, data) => {
         data
     })
 }
+
+// 5.关注用户
+export const followUser = (id) => {
+    return myaxios({
+        url: `/user_follows/${id}`
+    })
+}
+
+
+// 6.取消关注用户
+export const unFollowUser = (id) => {
+    return myaxios({
+        url: `/user_unfollow/${id}`
+    })
+}

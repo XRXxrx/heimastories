@@ -6,15 +6,25 @@
           <van-icon name="arrow-left back" @click="$router.back()" />
           <span class="iconfont iconnew new"></span>
         </div>
-        <span>关注</span>
+        <span @click="followUserById" :class="{ active: post.has_follow }">{{
+          post.has_follow ? "已关注" : "关注"
+        }}</span>
       </div>
       <div class="detail">
-        <div class="title">标题</div>
+        <div class="title">{{ post.title }}</div>
         <div class="desc">
-          <span>火星人</span> &nbsp;&nbsp;
+          <span>{{ post.user.nickname }}</span> &nbsp;&nbsp;
           <span>2019-9-9</span>
         </div>
-        <div class="content">文章的内容：</div>
+        <!-- 细节：内容是网页结构，所以需要进行解析，所以使用v-html -->
+        <div class="content" v-html="post.content" v-if="post.type == 1"></div>
+        <!-- 
+        1.controls:是否显示播放控制面板，如果没有这个面板，那么播放器不可见
+        2.src:播放的视频的路径
+        3.autoplay:自动播放
+        4.loop:循环播放
+        5.poster:封面，视频的第一帧画面 -->
+        <video :src="post.content" v-else controls></video>
         <div class="opt">
           <span class="like"> <van-icon name="good-job-o" />点赞 </span>
           <span class="chat"> <van-icon name="chat" class="w" />微信 </span>
@@ -41,7 +51,36 @@
 </template>
 
 <script>
-export default {};
+import { followUser, unFollowUser } from "@/apis/user";
+import { postDetail } from "@/apis/post";
+export default {
+  data() {
+    return {
+      post: {},
+    };
+  },
+  async mounted() {
+    // console.log(this.$route);
+    let res = await postDetail(this.$route.params.id);
+    console.log(res);
+    this.post = res.data.data;
+  },
+  methods: {
+    // 关注用户和取消关注用户
+    async followUserById() {
+      let res;
+      // 根据当前用户的关注状态，决定是关注用户还是取消关注用户
+      // true:已关注了，这次单击就是取消关注
+      if (this.post.has_follow) {
+        res = await unFollowUser(this.post.user.id);
+      } else {
+        res = await followUser(this.post.user.id);
+      }
+      this.post.has_follow = !this.post.has_follow;
+      this.$toast.success(res.data.message);
+    },
+  },
+};
 </script>
 
 <style lang="less" scoped>
@@ -73,6 +112,11 @@ export default {};
     text-align: center;
     border-radius: 15px;
     font-size: 13px;
+    &.active {
+      background-color: transparent;
+      border: 1px solid #aaa;
+      color: #000;
+    }
   }
 }
 .detail {
@@ -88,11 +132,21 @@ export default {};
     font-size: 13px;
   }
   .content {
-    text-indent: 2em;
+    // text-indent: 2em;
     line-height: 24px;
     font-size: 15px;
     padding-bottom: 30px;
     width: 100%;
+    /deep/ img {
+      width: 100%;
+    }
+    /deep/ p {
+      text-indent: 2em;
+    }
+  }
+  video {
+    width: 100%;
+    margin-bottom: 10px;
   }
 }
 .opt {
