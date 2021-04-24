@@ -23,16 +23,15 @@
         <van-list
           v-model="value.loading"
           :finished="value.finished"
+          loading-text="玩命加载中"
           finished-text="没有更多了"
           :offset="5"
           :immediate-check="true"
           @load="onLoad"
         >
-          <mypost
-            v-for="v in value.postlist"
-            :key="v.id"
-            :post="v"
-          ></mypost> </van-list
+          <van-pull-refresh v-model="value.isLoading" @refresh="onRefresh">
+            <mypost v-for="v in value.postlist" :key="v.id" :post="v"></mypost>
+          </van-pull-refresh> </van-list
       ></van-tab>
     </van-tabs>
   </div>
@@ -69,6 +68,7 @@ export default {
         pageSize: 20, // 当前栏目的每页所显示的数量
         loading: false, //当前组件的上拉加载的状态
         finished: false, //当前组件的数据是否全部加载完毕的标记
+        isLoading: false, // 当前组件的下拉刷新的状态，标记是否正在下拉刷新
       };
     });
     // 页面一加载获取当前被默认激活栏目的新闻数据
@@ -84,6 +84,18 @@ export default {
     },
   },
   methods: {
+    //下拉刷新处理函数
+    onRefresh() {
+      setTimeout(() => {
+        // 页码重新设置为1
+        this.catelist[this.active].pageIndex = 1;
+        // 将数据清空
+        this.catelist[this.active].postlist.length = 0;
+        // 将之前可能重置为true的finished状态重置为false
+        this.catelist[this.active].finished = false;
+        this.getpost();
+      }, 1000);
+    },
     // 上拉加载下一页数据
     onLoad() {
       // 加载下一页数据：就是将当前栏目的页码+1，重新发起axios请求
@@ -98,7 +110,7 @@ export default {
       // this.cateList[this.active]：获取当前被激活项的栏目数据
       // this.cateList[this.active].id：获取栏目id
       // console.log(this.active);
-      let id = this.catelist[this.active].id;
+      // let id = this.catelist[this.active].id;
       // console.log(id);
       // let a = await postList(id);
       // console.log(a);
@@ -117,6 +129,8 @@ export default {
       this.catelist[this.active].postlist.push(...current);
       // 本次请求完成之后，将loading重置为false,以便下一次上拉
       this.catelist[this.active].loading = false;
+      // 本次请求完成之后，将下拉刷新折状态重置为false,以便下一次下拉刷新
+      this.catelist[this.active].isLoading = false;
       // 判断数据是否已全部加载完毕：我要求20条数据，结果返回的数量小于20，说明真没有数据了
       if (current.length < this.catelist[this.active].pageSize) {
         this.catelist[this.active].finished = true;

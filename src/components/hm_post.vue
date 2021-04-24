@@ -65,13 +65,13 @@ export default {
       if (this.post.cover.length > 2) {
         for (let i = 0; i < this.post.cover.length; i++) {
           this.post.cover[i].url =
-            this.post.cover[i].indexOf("http") !== -1
+            this.post.cover[i].url.indexOf("http") !== -1
               ? this.post.cover[i].url
               : axios.defaults.baseURL + this.post.cover[i].url;
         }
       } else {
         this.post.cover[0].url =
-          this.post.caver[0].url.indexOf("http") !== -1
+          this.post.cover[0].url.indexOf("http") !== -1
             ? this.post.cover[0].url
             : axios.defaults.baseURL + this.post.cover[0].url;
       }
