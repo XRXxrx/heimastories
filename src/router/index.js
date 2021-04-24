@@ -40,6 +40,12 @@ const router = new VueRouter({
             path: '/index',
             component: () =>
                 import ('@/views/index.vue')
+        },
+        {
+            name: 'postDetail',
+            path: '/postDetail/:id',
+            component: () =>
+                import ('@/views/post/postDetail.vue')
         }
     ]
 })
