@@ -1,8 +1,9 @@
 import myaxios from '@/utils/request'
 
-export const postList = (category) => {
+export const postList = (params) => {
     return myaxios({
         method: 'get',
-        url: `/post?category=${category}&pageSize=100`,
+        url: '/post',
+        params
     })
 }
