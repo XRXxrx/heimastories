@@ -1,5 +1,6 @@
 <template>
   <div class="commentItem">
+    <commentItem v-if="parent.parent" :parent="parent.parent"></commentItem>
     <div class="top">
       <div class="left">
         <span>{{ parent.user.nickname }}</span> &nbsp;&nbsp;&nbsp;
@@ -13,6 +14,8 @@
 
 <script>
 export default {
+  //这个属性的值看可以当组件使用
+  name: "commentItem",
   props: {
     parent: {
       type: [Object],
