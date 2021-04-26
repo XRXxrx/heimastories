@@ -50,3 +50,11 @@ export const unFollowUser = (id) => {
         url: `/user_unfollow/${id}`
     })
 }
+
+//获取关注数据
+export const myfollow = () => {
+    return myaxios({
+        method: 'get',
+        url: '/user_follows'
+    })
+}
