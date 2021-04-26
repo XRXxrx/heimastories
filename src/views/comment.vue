@@ -14,18 +14,21 @@
         </div>
         <span>回复</span>
       </div>
+      <mycommentItem v-if="value.parent" :parent="value.parent"></mycommentItem>
       <div class="text">{{ value.content }}</div>
     </div>
   </div>
 </template>
 
 <script>
+import mycommentItem from "@/components/hm_commentItem";
 import axios from "@/utils/request";
 import { commentList } from "@/apis/post";
 import myheader from "@/components/hm_header";
 export default {
   components: {
     myheader,
+    mycommentItem,
   },
   data() {
     return {
