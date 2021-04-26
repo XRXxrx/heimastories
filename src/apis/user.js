@@ -58,3 +58,11 @@ export const myfollow = () => {
         url: '/user_follows'
     })
 }
+
+//获取收藏数据
+export const mystarinfo = () => {
+    return myaxios({
+        method: 'get',
+        url: '/user_star'
+    })
+}

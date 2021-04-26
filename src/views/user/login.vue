@@ -74,7 +74,16 @@ export default {
                 position: "bottom",
               });
               localStorage.setItem("heima_token", res.data.data.token);
-              this.$router.push({ path: `/personal/${res.data.data.user.id}` });
+              localStorage.setItem("userid", res.data.data.user.id);
+              // 如果之前传递的回跳的路径，那么进行回跳
+              if (location.href.split("=")[1]) {
+                location.href = decodeURIComponent(location.href.split("=")[1]);
+              } else {
+                // 否则跳转到个人中心页// 跳转到个人中心页
+                this.$router.push({
+                  path: `/personal/${res.data.data.user.id}`,
+                });
+              }
             } else {
               this.$toast.fail({
                 message: res.data.message,

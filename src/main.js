@@ -5,9 +5,9 @@ import App from './App.vue'
 import router from '@/router/index'
 
 //引入vant配置文件
-import { Toast, Icon, Uploader, Dialog, Field, ActionSheet, Tab, Tabs, List, PullRefresh } from 'vant';
+import { Toast, Icon, Uploader, Dialog, Field, ActionSheet, Tab, Tabs, List, PullRefresh, SwipeCell, Button } from 'vant';
 
-Vue.use(Toast).use(Icon).use(Uploader).use(Dialog).use(Field).use(ActionSheet).use(Tab).use(Tabs).use(List).use(PullRefresh);
+Vue.use(Toast).use(Icon).use(Uploader).use(Dialog).use(Field).use(ActionSheet).use(Tab).use(Tabs).use(List).use(PullRefresh).use(SwipeCell).use(Button);
 
 //引入全局样式
 import '@/styles/reset.less'

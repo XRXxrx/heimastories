@@ -9,7 +9,7 @@
         <van-icon name="search" />
         <span>搜索商品</span>
       </div>
-      <div class="user" @click="$router.push({ path: `/personal/${id}` })">
+      <div class="user" @click="jump">
         <van-icon name="manager-o" />
       </div>
     </div>
@@ -84,6 +84,16 @@ export default {
     },
   },
   methods: {
+    //点击个人中心图标进行跳转
+    jump() {
+      //如果有id就跳回个人中心页,没有id就跳回登录页
+      let id = localStorage.getItem("userid");
+      if (id) {
+        this.$router.push({ path: `/personal/${id}` });
+      } else {
+        this.$router.push({ name: "login" });
+      }
+    },
     //下拉刷新处理函数
     onRefresh() {
       setTimeout(() => {

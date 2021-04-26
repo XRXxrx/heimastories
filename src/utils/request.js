@@ -20,19 +20,22 @@ axios.interceptors.request.use(function(config) {
     return Promise.reject(error);
 });
 
-// import { Toast } from 'vant';
+import { Toast } from 'vant';
 // 添加响应拦截器
-// axios.interceptors.response.use(function(response) {
-//     console.log(response);
-//     if (response.data.message === '用户信息验证失败!') {
-//         Toast('用户信息验证失败!')
-//         location.href = '#/login'
-//     }
-//     // 对响应数据做点什么
-//     return response;
-// }, function(error) {
-//     // 对响应错误做点什么
-//     return Promise.reject(error);
-// });
+axios.interceptors.response.use(function(response) {
+    // console.log(response);
+    console.log(window.location.href);
+    if (response.data.message === '用户信息验证失败!' || response.data.message === '用户信息验证失败') {
+        Toast('用户信息验证失败!')
+            // location.href = '#/login'
+            // 传递当前页面地址
+        location.href = '#/login?redirect_url=' + window.location.href
+    }
+    // 对响应数据做点什么
+    return response;
+}, function(error) {
+    // 对响应错误做点什么
+    return Promise.reject(error);
+});
 
 export default axios

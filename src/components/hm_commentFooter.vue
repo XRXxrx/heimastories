@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import { shouCang } from "../apis/post";
+import { shouCang } from "@/apis/post";
 export default {
   props: {
     post: {

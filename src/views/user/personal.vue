@@ -25,9 +25,15 @@
       @click.native="$router.push({ name: 'myfollow' })"
     ></mycell>
     <mycell title="我的跟帖" desc="跟帖/回复"></mycell>
-    <mycell title="我的收藏" desc="文章/视频"></mycell>
+    <mycell
+      title="我的收藏"
+      desc="文章/视频"
+      @click.native="$router.push({ name: 'mystar' })"
+    ></mycell>
     <mycell title="设置"></mycell>
-    <mybutton type="danger" class="but">退出</mybutton>
+    <mybutton type="danger" class="but" @click="$router.push({ name: 'login' })"
+      >退出</mybutton
+    >
   </div>
 </template>
 

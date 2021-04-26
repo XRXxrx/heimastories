@@ -52,6 +52,12 @@ const router = new VueRouter({
             path: '/myfollow',
             component: () =>
                 import ('@/views/user/myfollow.vue')
+        },
+        {
+            name: 'mystar',
+            path: '/mystar',
+            component: () =>
+                import ('@/views/user/mystar.vue')
         }
     ]
 })
