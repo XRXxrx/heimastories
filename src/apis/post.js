@@ -22,3 +22,11 @@ export const likeCate = (id) => {
         url: `/post_like/${id}`
     })
 }
+
+//收藏文章
+export const shouCang = (id) => {
+    return myaxios({
+        method: 'get',
+        url: `/post_star/${id}`
+    })
+}

@@ -6,7 +6,11 @@
         <i class="iconfont iconpinglun-"></i>
         <em>{{ post.comment_length }}</em>
       </span>
-      <i class="iconfont iconshoucang" :class="{ shoucang: post.has_star }"></i>
+      <i
+        class="iconfont iconshoucang"
+        :class="{ shoucang: post.has_star }"
+        @click="changeshoucang"
+      ></i>
       <i class="iconfont iconfenxiang"></i>
     </div>
     <div class="inputcomment" v-show="isFocus">
@@ -20,6 +24,7 @@
 </template>
 
 <script>
+import { shouCang } from "../apis/post";
 export default {
   props: {
     post: {
@@ -31,6 +36,14 @@ export default {
     return {
       isFocus: false,
     };
+  },
+  methods: {
+    async changeshoucang() {
+      let res = await shouCang(this.post.id);
+      console.log(res);
+      this.post.has_star = !this.post.has_star;
+      this.$toast.success(res.data.message);
+    },
   },
 };
 </script>
