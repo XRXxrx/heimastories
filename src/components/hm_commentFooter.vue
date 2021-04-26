@@ -25,7 +25,7 @@
       ></textarea>
       <div>
         <span @click="sendComment">发 送</span>
-        <span @click="isFocus = !isFocus">取 消</span>
+        <span @click="cancelReplay">取 消</span>
       </div>
     </div>
   </div>
@@ -39,6 +39,18 @@ export default {
     post: {
       type: [Object],
       required: true,
+    },
+    commentObj: {
+      type: [Object],
+      default: null,
+    },
+  },
+  watch: {
+    commentObj() {
+      // 如果有评论对象(不为null)，说明用户单击了回复，且传递了评论对象
+      if (this.commentObj) {
+        this.isFocus = !this.isFocus;
+      }
     },
   },
   data() {
@@ -55,7 +67,7 @@ export default {
       this.post.has_star = !this.post.has_star;
       this.$toast.success(res.data.message);
     },
-    // 发表评论
+    // 点击发送，发表评论
     async sendComment() {
       if (this.content.length === 0) {
         this.$toast.fail("请输入评论内容");
@@ -65,6 +77,10 @@ export default {
       let data = {
         content: this.content,
       };
+      //添加回复id参数
+      if (this.commentObj) {
+        data.parent_id = this.commentObj.id;
+      }
       // 发起评论请求
       let res = await publishComment(this.post.id, data);
       console.log(res);
@@ -76,6 +92,11 @@ export default {
       this.content = "";
       // 页面内容的刷新-子组件要告诉父组件进行列表数据的刷新
       this.$emit("refresh");
+    },
+    //点击取消,取消回复评论
+    cancelReplay() {
+      this.isFocus = !this.isFocus;
+      this.$emit("cancel");
     },
   },
 };

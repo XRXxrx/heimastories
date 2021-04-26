@@ -13,7 +13,7 @@
             <p>{{ value.user.nickname }}</p>
             <span>时间</span>
           </div>
-          <span>回复</span>
+          <span @click="replayComment(value)">回复</span>
         </div>
         <mycommentItem
           v-if="value.parent"
@@ -23,7 +23,12 @@
       </div>
     </div>
     <!-- 底部评论块 -->
-    <myfooter :post="article" @refresh="refresh"></myfooter>
+    <myfooter
+      :post="article"
+      @refresh="refresh"
+      :commentObj="temp"
+      @cancel="temp = null"
+    ></myfooter>
   </div>
 </template>
 
@@ -44,6 +49,7 @@ export default {
       commentInfo: [],
       axios,
       article: {},
+      temp: {},
     };
   },
   async mounted() {
@@ -65,6 +71,10 @@ export default {
       this.init();
       // 让列表自动的滚动到顶部
       window.scrollTo(0, 0);
+    },
+    //回复传值，用于获取回复id
+    replayComment(v) {
+      this.temp = v;
     },
   },
 };
