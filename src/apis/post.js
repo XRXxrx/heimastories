@@ -30,3 +30,11 @@ export const shouCang = (id) => {
         url: `/post_star/${id}`
     })
 }
+
+//获取评论列表
+export const commentList = (id) => {
+    return myaxios({
+        method: 'get',
+        url: `/post_comment/${id}`
+    })
+}
