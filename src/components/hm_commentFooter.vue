@@ -1,7 +1,7 @@
 <template>
   <div class="comment">
     <div class="addcomment" v-show="!isFocus">
-      <input type="text" placeholder="写跟帖" @focus="handlerFocus" />
+      <input type="text" placeholder="写跟帖" @click="isFocus = !isFocus" />
       <span class="comment">
         <i
           class="iconfont iconpinglun-"
@@ -17,9 +17,14 @@
       <i class="iconfont iconfenxiang"></i>
     </div>
     <div class="inputcomment" v-show="isFocus">
-      <textarea ref="commtext" rows="5" @blur="isFocus = false"></textarea>
+      <textarea
+        ref="commtext"
+        rows="5"
+        @blur="isFocus = false"
+        v-model.trim="content"
+      ></textarea>
       <div>
-        <span>发 送</span>
+        <span @click="sendComment">发 送</span>
         <span @click="isFocus = !isFocus">取 消</span>
       </div>
     </div>
@@ -27,6 +32,7 @@
 </template>
 
 <script>
+import { publishComment } from "@/apis/post";
 import { shouCang } from "@/apis/post";
 export default {
   props: {
@@ -38,14 +44,38 @@ export default {
   data() {
     return {
       isFocus: false,
+      content: "",
     };
   },
   methods: {
+    // 收藏文章
     async changeshoucang() {
       let res = await shouCang(this.post.id);
       console.log(res);
       this.post.has_star = !this.post.has_star;
       this.$toast.success(res.data.message);
+    },
+    // 发表评论
+    async sendComment() {
+      if (this.content.length === 0) {
+        this.$toast.fail("请输入评论内容");
+        return;
+      }
+      //  准备参数
+      let data = {
+        content: this.content,
+      };
+      // 发起评论请求
+      let res = await publishComment(this.post.id, data);
+      console.log(res);
+      // 给提示
+      this.$toast.fail(res.data.message);
+      // 隐藏输入框
+      this.isFocus = false;
+      // 清空之前输入的内容
+      this.content = "";
+      // 页面内容的刷新-子组件要告诉父组件进行列表数据的刷新
+      this.$emit("refresh");
     },
   },
 };

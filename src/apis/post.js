@@ -38,3 +38,12 @@ export const commentList = (id) => {
         url: `/post_comment/${id}`
     })
 }
+
+// 发表+回复 文章评论
+export const publishComment = (id, data) => {
+    return myaxios({
+        method: 'post',
+        url: `/post_comment/${id}`,
+        data
+    })
+}
