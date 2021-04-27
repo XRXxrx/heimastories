@@ -17,12 +17,7 @@
       <i class="iconfont iconfenxiang"></i>
     </div>
     <div class="inputcomment" v-show="isFocus">
-      <textarea
-        ref="commtext"
-        rows="5"
-        @blur="isFocus = false"
-        v-model.trim="content"
-      ></textarea>
+      <textarea ref="commtext" rows="5" v-model.trim="content"></textarea>
       <div>
         <span @click="sendComment">发 送</span>
         <span @click="cancelReplay">取 消</span>

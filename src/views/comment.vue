@@ -18,6 +18,7 @@
         <mycommentItem
           v-if="value.parent"
           :parent="value.parent"
+          @replay="replayComment"
         ></mycommentItem>
         <div class="text">{{ value.content }}</div>
       </div>
@@ -58,13 +59,13 @@ export default {
   methods: {
     //封装获取数据
     async init() {
+      // 获取文章详情数据
+      this.article = (await postDetail(this.$route.params.id)).data.data;
+      console.log(this.article);
       // 获取文章的评论数据
       let res = await commentList(this.$route.params.id);
       console.log(res);
       this.commentInfo = res.data.data;
-      // 获取文章详情数据
-      this.article = (await postDetail(this.$route.params.id)).data.data;
-      console.log(this.article);
     },
     refresh() {
       //重新获取数据

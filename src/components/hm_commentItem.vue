@@ -6,7 +6,7 @@
         <span>{{ parent.user.nickname }}</span> &nbsp;&nbsp;&nbsp;
         <span>2分钟前</span>
       </div>
-      <span>回复</span>
+      <span @click="handlerComment(parent)">回复</span>
     </div>
     <div class="bottom">{{ parent.content }}</div>
   </div>
@@ -19,6 +19,12 @@ export default {
   props: {
     parent: {
       type: [Object],
+    },
+  },
+  methods: {
+    //先子传父，再在父组件中接收子组件传过去的回复对象，然后复用父传子的方法，从传过去的数据中获取回复id
+    handlerComment(v) {
+      this.$emit("replay", v);
     },
   },
 };
