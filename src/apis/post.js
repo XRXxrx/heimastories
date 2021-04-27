@@ -47,3 +47,11 @@ export const publishComment = (id, data) => {
         data
     })
 }
+
+//搜索
+export const postSearch = (keyword) => {
+    return myaxios({
+        method: 'get',
+        url: `/post_search?keyword=${keyword}`
+    })
+}
