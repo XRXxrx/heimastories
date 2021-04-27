@@ -59,7 +59,10 @@ export default {
     // 细节：要使得箭头函数，否则this的指向变了
     document.querySelector(".van-sticky").onclick = (e) => {
       //说明点击的位置是入口位置
-      if (e.target.className === "van-sticky") {
+      //有bug,如果不是从最顶部（滚动条距顶部为0）开始点击，那么e.target.className获取到的不是van-sticky
+      // if (e.target.className === "van-sticky") {
+      //解决
+      if (e.target.className.indexOf("van-sticky") !== -1) {
         this.$router.push({ name: "cateManager" });
       }
     };

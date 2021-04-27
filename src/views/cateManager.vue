@@ -47,8 +47,11 @@ export default {
   },
   async mounted() {
     // 先读取本地存储数据，如果没有数据，才会向后台服务器发起数据请求
-    this.cateList = JSON.parse(localStorage.getItem("cateList") || "[]");
-    if (this.cateList.length === 0) {
+    // this.cateList = JSON.parse(localStorage.getItem("cateList") || "[]");
+    // if (this.cateList.length === 0) {//有bug,如果全部删完，长度也为0，再次刷新又会重新发送请求
+    //解决
+    this.cateList = JSON.parse(localStorage.getItem("cateList"));
+    if (!this.cateList) {
       let res = await getCateInfo();
       console.log(res);
       this.cateList = res.data.data;
