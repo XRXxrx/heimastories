@@ -46,15 +46,22 @@ export default {
     };
   },
   async mounted() {
-    let res = await getCateInfo();
-    console.log(res);
-    this.cateList = res.data.data;
-    //根据是否登录截取数据
-    if (localStorage.getItem("heima_token")) {
-      this.cateList.splice(0, 2);
-    } else {
-      this.cateList.splice(0, 1);
+    // 先读取本地存储数据，如果没有数据，才会向后台服务器发起数据请求
+    this.cateList = JSON.parse(localStorage.getItem("cateList") || "[]");
+    if (this.cateList.length === 0) {
+      let res = await getCateInfo();
+      console.log(res);
+      this.cateList = res.data.data;
+      //根据是否登录截取数据
+      if (localStorage.getItem("heima_token")) {
+        this.cateList.splice(0, 2);
+      } else {
+        this.cateList.splice(0, 1);
+      }
     }
+    this.unaddCateList = JSON.parse(
+      localStorage.getItem("unaddCateList") || "[]"
+    );
   },
   methods: {
     delCate(value) {
@@ -64,6 +71,9 @@ export default {
       this.cateList = this.cateList.filter((v) => {
         return v.id != value.id;
       });
+      // 将两个数组存储到本地存储,本地存储只能存储字符串
+      localStorage.setItem("cateList", JSON.stringify(this.cateList));
+      localStorage.setItem("unaddCateList", JSON.stringify(this.unaddCateList));
     },
     addCate(value) {
       // 将当前栏目添加到“已添加栏目”
@@ -72,6 +82,9 @@ export default {
       this.unaddCateList = this.unaddCateList.filter((v) => {
         return v.id != value.id;
       });
+      // 将两个数组存储到本地存储,本地存储只能存储字符串
+      localStorage.setItem("cateList", JSON.stringify(this.cateList));
+      localStorage.setItem("unaddCateList", JSON.stringify(this.unaddCateList));
     },
   },
 };
