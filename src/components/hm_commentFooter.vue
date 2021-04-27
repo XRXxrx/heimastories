@@ -56,7 +56,9 @@ export default {
     isFocus() {
       if (this.isFocus) {
         // console.log(this.$refs.commtext);
-        this.$refs.commtext.focus();
+        this.$nextTick(() => {
+          this.$refs.commtext.focus();
+        });
         // console.log("1213");
       }
     },
