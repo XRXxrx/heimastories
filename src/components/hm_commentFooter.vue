@@ -40,6 +40,12 @@ export default {
       default: null,
     },
   },
+  data() {
+    return {
+      isFocus: false,
+      content: "",
+    };
+  },
   watch: {
     commentObj() {
       // 如果有评论对象(不为null)，说明用户单击了回复，且传递了评论对象
@@ -47,12 +53,13 @@ export default {
         this.isFocus = !this.isFocus;
       }
     },
-  },
-  data() {
-    return {
-      isFocus: false,
-      content: "",
-    };
+    isFocus() {
+      if (this.isFocus) {
+        // console.log(this.$refs.commtext);
+        this.$refs.commtext.focus();
+        // console.log("1213");
+      }
+    },
   },
   methods: {
     // 收藏文章

@@ -77,7 +77,11 @@ const router = new VueRouter({
 //添加导航守卫
 import { Toast } from 'vant';
 router.beforeEach((to, from, next) => {
-    if (to.path.indexOf('/personal/') !== -1) {
+    let arr = ['personal', 'edit_profile', 'cateManager']
+        // if (to.path.indexOf('/personal/') !== -1) {
+    console.log(from);
+    console.log(to);
+    if (arr.indexOf(to.name) !== -1) {
         let token = localStorage.getItem('heima_token')
         if (token) {
             next()

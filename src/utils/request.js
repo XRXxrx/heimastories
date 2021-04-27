@@ -24,7 +24,7 @@ import { Toast } from 'vant';
 // 添加响应拦截器
 axios.interceptors.response.use(function(response) {
     // console.log(response);
-    console.log(window.location.href);
+    // console.log(window.location.href);
     if (response.data.message === '用户信息验证失败!' || response.data.message === '用户信息验证失败') {
         Toast('用户信息验证失败!')
             // location.href = '#/login'
