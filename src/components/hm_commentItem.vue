@@ -1,5 +1,8 @@
 <template>
   <div class="commentItem">
+    <!-- 单击递归组件内的回复评论按钮，本质目的也是让底部评论块评论内容输入框出现
+之前的功能实现过程中，已经实现了评论块回复按钮的单击操作，在递归组件中，我们只需要让递归组件本身也能监听它自己所发出的事件即可 -->
+    <!-- @replay="handlerComment"监听下一级组件（递归组件）所发出的事件 -->
     <commentItem
       v-if="parent.parent"
       :parent="parent.parent"
