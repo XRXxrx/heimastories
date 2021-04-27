@@ -77,7 +77,8 @@ const router = new VueRouter({
 //添加导航守卫
 import { Toast } from 'vant';
 router.beforeEach((to, from, next) => {
-    let arr = ['personal', 'edit_profile', 'cateManager']
+    // let arr = ['personal', 'edit_profile', 'cateManager']
+    let arr = ['personal', 'edit_profile']
         // if (to.path.indexOf('/personal/') !== -1) {
     console.log(from);
     console.log(to);

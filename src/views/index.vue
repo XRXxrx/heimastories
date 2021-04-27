@@ -63,10 +63,25 @@ export default {
         this.$router.push({ name: "cateManager" });
       }
     };
-    //获取所有栏目数据
-    let res = await getCateInfo();
-    console.log(res);
-    this.catelist = res.data.data;
+    //首页加载之后，先读取本地存储中的栏目数据--加载用户定制数据
+    this.catelist = JSON.parse(localStorage.getItem("cateList") || "[]");
+    if (this.catelist.length === 0) {
+      //获取所有栏目数据
+      let res = await getCateInfo();
+      console.log(res);
+      // 这个数据现在只有 id  name  is_top，并没有存储新闻数据的数组
+      this.catelist = res.data.data;
+    } else {
+      // 有本地存储数据，那么就需要手动的添加 “关注”和“头条”
+      if (localStorage.getItem("heima_token")) {
+        this.catelist.unshift(
+          { id: 0, name: "关注", is_top: 1 },
+          { id: 999, name: "头条", is_top: 1 }
+        );
+      } else {
+        this.catelist.unshift({ id: 999, name: "头条", is_top: 1 });
+      }
+    }
     //数据改造，添加存放栏目内容数据的位置
     this.catelist = this.catelist.map((v) => {
       return {
