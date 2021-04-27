@@ -55,6 +55,14 @@ export default {
     };
   },
   async mounted() {
+    // 实现栏目管理的入口 添加
+    // 细节：要使得箭头函数，否则this的指向变了
+    document.querySelector(".van-sticky").onclick = (e) => {
+      //说明点击的位置是入口位置
+      if (e.target.className === "van-sticky") {
+        this.$router.push({ name: "cateManager" });
+      }
+    };
     //获取所有栏目数据
     let res = await getCateInfo();
     console.log(res);
@@ -152,6 +160,23 @@ export default {
 
 <style lang="less" scoped>
 .index {
+  /deep/ .van-sticky {
+    // 入口预留空间
+    padding-right: 44px;
+    &::before {
+      // 入口文本内容
+      content: "+";
+      position: absolute;
+      width: 51px;
+      height: 44px;
+      background-color: #fff;
+      top: 0;
+      right: 0;
+      text-align: center;
+      line-height: 42px;
+      font-size: 35px;
+    }
+  }
   .header {
     height: 50px;
     display: flex;
