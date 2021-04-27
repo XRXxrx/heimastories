@@ -31,9 +31,7 @@
       @click.native="$router.push({ name: 'mystar' })"
     ></mycell>
     <mycell title="设置"></mycell>
-    <mybutton type="danger" class="but" @click="$router.push({ name: 'login' })"
-      >退出</mybutton
-    >
+    <mybutton type="danger" class="but" @click="tcback">退出</mybutton>
   </div>
 </template>
 
@@ -66,6 +64,14 @@ export default {
       .catch((err) => {
         console.log(err);
       });
+  },
+  methods: {
+    //退出功能
+    tcback() {
+      localStorage.removeItem("heima_token");
+      localStorage.removeItem("user_id");
+      this.$router.push({ name: "index" });
+    },
   },
 };
 </script>
