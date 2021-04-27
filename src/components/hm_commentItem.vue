@@ -1,6 +1,10 @@
 <template>
   <div class="commentItem">
-    <commentItem v-if="parent.parent" :parent="parent.parent"></commentItem>
+    <commentItem
+      v-if="parent.parent"
+      :parent="parent.parent"
+      @replay="handlerComment"
+    ></commentItem>
     <div class="top">
       <div class="left">
         <span>{{ parent.user.nickname }}</span> &nbsp;&nbsp;&nbsp;
