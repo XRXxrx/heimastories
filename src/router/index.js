@@ -83,18 +83,17 @@ const router = new VueRouter({
 //添加导航守卫
 import { Toast } from 'vant';
 router.beforeEach((to, from, next) => {
-    // let arr = ['personal', 'edit_profile', 'cateManager']
-    let arr = ['personal', 'edit_profile']
+    let arr = ['personal', 'edit_profile', 'cateManager']
+        // let arr = ['personal', 'edit_profile']
         // if (to.path.indexOf('/personal/') !== -1) {
-    console.log(from);
-    console.log(to);
     if (arr.indexOf(to.name) !== -1) {
         let token = localStorage.getItem('heima_token')
         if (token) {
             next()
         } else {
             Toast('未登录，请先登录')
-            next({ name: 'login' })
+                // console.log(from);
+            next({ name: 'login', params: { url: from.path } })
         }
     } else {
         next()
