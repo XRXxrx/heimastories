@@ -93,6 +93,7 @@ router.beforeEach((to, from, next) => {
         } else {
             Toast('未登录，请先登录')
                 // console.log(from);
+                //使用from获取回退时的路由，用params传递参数到跳转对象中，再在登录页进行获取，进行判断
             next({ name: 'login', params: { url: from.path } })
         }
     } else {

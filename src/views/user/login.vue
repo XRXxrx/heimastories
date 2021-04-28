@@ -75,7 +75,7 @@ export default {
               });
               localStorage.setItem("heima_token", res.data.data.token);
               localStorage.setItem("userid", res.data.data.user.id);
-              //获取传递过来的路由
+              //获取跳转对象中传递过来的路由
               let url = this.$route.params.url;
               // console.log(url);
               // 如果之前传递的回跳的路径，那么进行回跳
